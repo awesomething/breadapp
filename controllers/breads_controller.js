@@ -1,19 +1,36 @@
 const express = require('express')
 const breads = express.Router()
 const Bread = require('../models/bread')
+const Baker = require('../models/baker')
 
-
-breads.get('/', (req,res) =>{
-  Bread.find()
-  .then(foundBreads => {
-    res.render('index',
-    {
-        breads: foundBreads,
-        title: 'Index Page'
-    }
-    )
-  })
+// Index:
+breads.get('/', (req, res) => {
+  Baker.find()
+    .then(foundBakers => {
+      Bread.find()
+      .then(foundBreads => {
+          res.render('index', {
+              breads: foundBreads,
+              bakers: foundBakers,
+              title: 'Index Page'
+          })
+      })
+    })
 })
+
+// B4 VIRTUAL
+// breads.get('/', (req,res) =>{
+  
+//   Bread.find()
+//   .then(foundBreads => {
+//     res.render('index',
+//     {
+//         breads: foundBreads,
+//         title: 'Index Page'
+//     }
+//     )
+//   })
+// })
 
 //BEFORE Mongoose Connect
 // breads.get('/', (req,res) =>{
@@ -28,18 +45,25 @@ breads.get('/', (req,res) =>{
 
 // NEW
 breads.get('/new', (req, res) => {
-    res.render('new')
+  Baker.find()
+  .then(foundBakers=>{
+    res.render('new', {
+      bakers: foundBakers
+    })
+  })
 })
 
 //EDIT
 breads.get('/:id/edit', (req,res) => {
-  Bread.findById(req.params.id)
-  .then(foundBread =>{
-    res.render('edit', {
-      bread: foundBread
+  Baker.find().then(foundBakers =>{
+    Bread.findById(req.params.id)
+    .then(foundBread =>{
+      res.render('edit', {
+        bread: foundBread,
+        bakers: foundBakers
+      })
     })
   })
-  
 })
 
 
@@ -51,15 +75,28 @@ breads.get('/:id/edit', (req,res) => {
 //   })
 // })
 
-//SHOW
-breads.get('/:id', (req,res) =>{
+//SHOW B4 Instance method
+// breads.get('/:id', (req,res) =>{
+//   Bread.findById(req.params.id)
+//   .then(foundBread => {
+//     res.render('show', {
+//       bread: foundBread
+//     })
+//   }).catch( err =>{ res.send('404') })
+// })
+
+// SHOW
+breads.get('/:id', (req, res) => {
   Bread.findById(req.params.id)
-  .then(foundBread => {
-    res.render('show', {
-      bread: foundBread
+    .populate('baker')
+    .then(foundBread => {
+      const bakedBy = foundBread.getBakedBy()
+      // console.log(bakedBy)
+      res.render('show', {
+        bread: foundBread
+      })
     })
-  }).catch( err =>{ res.send('404') })
-})
+    })
 
 //SHOW -B4 Mongoose
 // breads.get('/:arrayIndex', (req,res) =>{

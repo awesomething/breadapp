@@ -23,10 +23,13 @@ app.use(express.static('public'))
 app.use(express.urlencoded({extended: true}))
 app.use(methodOverride('_method'))
 
-
 //BREADS
 const breadsController = require('./controllers/breads_controller')
 app.use('/breads', breadsController)
+
+//BAKERS
+const bakersController = require('./controllers/bakers_controller')
+app.use('/bakers', bakersController)
 
 // 404 Page
 app.get('*', (req, res) => {
