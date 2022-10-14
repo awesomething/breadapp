@@ -1,6 +1,6 @@
 const React = require('react')
 const baker = require('../controllers/bakers_controller')
-const Default = require('./layouts/Default')
+const Default = require('./layouts/default')
 
 function Edit({ bread, bakers}) {
   return (
