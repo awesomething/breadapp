@@ -4,7 +4,6 @@ const methodOverride = require('method-override')
 const mongoose = require('mongoose')
 // CONFIGURATION
 require('dotenv').config()
-console.log(PORT)
 
 app.get('/', (req,res) =>{
     res.send('Welcome to an Awesome Bread App')
