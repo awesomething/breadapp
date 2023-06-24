@@ -27,7 +27,7 @@ app.use('/breads', breadsController)
 const bakersController = require('./controllers/bakers_controller')
 app.use('/bakers', bakersController)
 
-const PORT = process.env.PORT || 3003
+const PORT = process.env.PORT || 5000
 mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true},
     () => {console.log('connected to : ', process.env.MONGO_URI)}
     )
@@ -35,7 +35,8 @@ mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopolo
 app.get('*', (req, res) => {
     res.send('404')
   })
-  
-app.listen(PORT, () =>{
-    console.log('LISTENING ON SERVER', PORT)
-})
+
+app.listen(process.env.PORT)
+// app.listen(PORT, () =>{
+//     console.log('LISTENING ON SERVER', PORT)
+// })
